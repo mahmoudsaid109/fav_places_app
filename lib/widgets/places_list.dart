@@ -1,6 +1,6 @@
 import 'package:fav_places_app/models/place_model.dart';
+import 'package:fav_places_app/screens/places_details.dart';
 import 'package:flutter/material.dart';
-
 
 class PlacesList extends StatelessWidget {
   const PlacesList({super.key, required this.places});
@@ -14,8 +14,8 @@ class PlacesList extends StatelessWidget {
         child: Text(
           'No places added yet',
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
       );
     }
@@ -26,9 +26,16 @@ class PlacesList extends StatelessWidget {
         title: Text(
           places[index].title,
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => PlaceDetailScreen(place: places[index]),
+            ),
+          );
+        },
       ),
     );
   }
