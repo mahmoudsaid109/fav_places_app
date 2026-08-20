@@ -1,4 +1,5 @@
 import 'package:fav_places_app/models/place_model.dart';
+import 'package:fav_places_app/screens/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 
@@ -55,18 +56,27 @@ class PlaceDetailScreen extends StatelessWidget {
             const SizedBox(height: 8),
 
             // Map
-            SizedBox(
-              height: 250,
-              width: double.infinity,
-              child: FlutterMap(
-                options: MapOptions(
-                  initialCenter: place.location,
-                  initialZoom: 15,
-                  interactionOptions: const InteractionOptions(
-                    flags: InteractiveFlag.all,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MapScreen(
+                      initialLocation: place.location,
+                      isSelecting: false,
+                    ),
                   ),
-                ),
-                children: [
+                );
+              },
+              child: AbsorbPointer(
+                child: SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCenter: place.location,
+                      initialZoom: 15,
+                    ),
+                    children: [
                   TileLayer(
                     urlTemplate:
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -91,8 +101,10 @@ class PlaceDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ),
 
-            const SizedBox(height: 16),
+        const SizedBox(height: 16),
           ],
         ),
       ),

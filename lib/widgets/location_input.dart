@@ -5,10 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({
-    super.key,
-    required this.onLocationPicked,
-  });
+  const LocationInput({super.key, required this.onLocationPicked});
 
   final void Function(LatLng location) onLocationPicked;
 
@@ -47,8 +44,7 @@ class _LocationInputState extends State<LocationInput> {
     }
 
     // Check permission
-    PermissionStatus permissionGranted =
-        await location.hasPermission();
+    PermissionStatus permissionGranted = await location.hasPermission();
 
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
@@ -64,7 +60,6 @@ class _LocationInputState extends State<LocationInput> {
     // Get location
     final locationData = await location.getLocation();
 
-
     final currentLocation = LatLng(
       locationData.latitude,
       locationData.longitude,
@@ -79,17 +74,10 @@ class _LocationInputState extends State<LocationInput> {
     widget.onLocationPicked(currentLocation);
   }
 
-  // =========================================================
-  // Select Location From Map
-  // =========================================================
-
   Future<void> selectOnMap() async {
-    final LatLng? selectedLocation =
-        await Navigator.of(context).push<LatLng>(
+    final LatLng? selectedLocation = await Navigator.of(context).push<LatLng>(
       MaterialPageRoute(
-        builder: (context) => MapScreen(
-          initialLocation: pickedLocation,
-        ),
+        builder: (context) => MapScreen(initialLocation: pickedLocation),
       ),
     );
 
@@ -115,7 +103,6 @@ class _LocationInputState extends State<LocationInput> {
     if (isGettingLocation) {
       previewContent = const CircularProgressIndicator();
     }
-
     // No location
     else if (pickedLocation == null) {
       previewContent = Text(
@@ -124,7 +111,6 @@ class _LocationInputState extends State<LocationInput> {
         style: Theme.of(context).textTheme.bodyLarge,
       );
     }
-
     // Show map
     else {
       previewContent = FlutterMap(
@@ -137,10 +123,8 @@ class _LocationInputState extends State<LocationInput> {
         ),
         children: [
           TileLayer(
-            urlTemplate:
-                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName:
-                'com.example.fav_places_app',
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.example.fav_places_app',
           ),
 
           MarkerLayer(
@@ -167,10 +151,7 @@ class _LocationInputState extends State<LocationInput> {
           decoration: BoxDecoration(
             border: Border.all(
               width: 1,
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withOpacity(0.2),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             ),
           ),
           height: 170,
@@ -188,20 +169,15 @@ class _LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton.icon(
-              onPressed:
-                  isGettingLocation ? null : getCurrentLocation,
+              onPressed: isGettingLocation ? null : getCurrentLocation,
               icon: const Icon(Icons.location_on),
-              label: const Text(
-                'Get Current Location',
-              ),
+              label: const Text('Get Current Location'),
             ),
 
             TextButton.icon(
               onPressed: selectOnMap,
               icon: const Icon(Icons.map),
-              label: const Text(
-                'Select on Map',
-              ),
+              label: const Text('Select on Map'),
             ),
           ],
         ),

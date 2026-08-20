@@ -4,10 +4,12 @@ import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
   final LatLng? initialLocation;
+  final bool isSelecting;
 
   const MapScreen({
     super.key,
     this.initialLocation,
+    this.isSelecting = true,
   });
 
   @override
@@ -73,7 +75,7 @@ class _MapScreenState extends State<MapScreen> {
               initialCenter: initialLocation,
               initialZoom: 12,
 
-              onTap: selectLocation,
+              onTap: widget.isSelecting ? selectLocation : null,
             ),
 
             children: [
@@ -105,27 +107,28 @@ class _MapScreenState extends State<MapScreen> {
           ),
 
           // Bottom confirmation button
-          Positioned(
-            left: 16,
-            right: 16,
-            bottom: 20,
-            child: SafeArea(
-              child: ElevatedButton.icon(
-                onPressed: confirmLocation,
-                icon: const Icon(
-                  Icons.check,
-                ),
-                label: const Text(
-                  'Confirm Location',
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
+          if (widget.isSelecting)
+            Positioned(
+              left: 16,
+              right: 16,
+              bottom: 20,
+              child: SafeArea(
+                child: ElevatedButton.icon(
+                  onPressed: confirmLocation,
+                  icon: const Icon(
+                    Icons.check,
+                  ),
+                  label: const Text(
+                    'Confirm Location',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
